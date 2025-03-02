@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json()) // Middleware used for json sync
 
-const dbUrl = 'mongodb+srv://kraniket754:<db_password>@cluster0.blryc.mongodb.net/' 
+const dbUrl = 'mongodb+srv://kraniket754:IZjqAUKDp2xJvJ8i@cluster0.blryc.mongodb.net/' 
 
 mongoose
 .connect(dbUrl)
