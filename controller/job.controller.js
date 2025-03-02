@@ -21,24 +21,60 @@ const jobCreate = async(req,res,next)=>{
 }
 }
 
-const jobList = (req,res)=>{
+//Job Read operation
+const jobList = async(req,res,next)=>{
+    
+   try{
+    const id = req.query.id ;
+    const minExp = parseInt(req.query.minimumExperience || 0) ;
+    const jobsList = await jobModel.find({
+        minimumExperience: {
+        $gte : minExp
+    }
+   })
+    // const jobsList = await jobModel.findById(id);
     res.json({
         success:true,
-        message:'Job list fetched successfully'
+        message:'Job list fetched successfully',
+        data: jobsList,
     })
+} catch(err){
+    next(err);
+}
 }
 
-const jobEdit = (req,res)=>{
+//Edit Operation
+const jobEdit = async(req,res,next)=>{
+    try{
+     const id = req.query.id ;
+     await jobModel.findByIdAndUpdate(id,req.body);
+    //  updateOne / updateMany
+    const findbyTitle = {
+        title: req.query.title
+    }
+    await jobModel.updateOne(findbyTitle,req.body);
     res.json({
         success:true,
         message:'Job edited successfully'
     })
+}catch(err){
+    next(err)
 }
-const jobDelete = (req,res)=>{
+}
+
+//Delete operation : findByIdAndDelete , deleteOne , deleteMany
+const jobDelete = async(req,res,next)=>{
+
+    try{
+    const id = req.query.id ;
+    await jobModel.findByIdAndDelete(id);
     res.json({
         success:true,
         message:'Job deleted successfully'
     })
+} catch(err){
+    next(err);
+}
 }
 
 const jobController = {
